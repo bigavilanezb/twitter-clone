@@ -8,9 +8,40 @@ import css from "@eslint/css";
 import { defineConfig } from "eslint/config";
 
 export default defineConfig([
-  { files: ["**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"], plugins: { js }, extends: ["js/recommended"], languageOptions: { globals: {...globals.browser, ...globals.node} } },
+  // Configuración base para archivos de código
+  { 
+    files: ["**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"], 
+    plugins: { js }, 
+    extends: ["js/recommended"], 
+    languageOptions: { globals: {...globals.browser, ...globals.node} } 
+  },
+  
+  // Configuración recomendada de TypeScript
   tseslint.configs.recommended,
+  
+  // Configuración recomendada de React
   pluginReact.configs.flat.recommended,
+  
+  // ======================================================
+  // OBJETO DE CONFIGURACIÓN PERSONALIZADO PARA TUS REGLAS
+  // ======================================================
+  {
+    files: ["**/*.{ts,mts,cts,tsx}"], // Aplicamos las reglas solo a archivos TypeScript/React
+    rules: {
+      // Reglas de React (para evitar errores en React v17+)
+      "react/prop-types": "off",
+      "react/react-in-jsx-scope": "off",
+      
+      // Reglas de TypeScript (desactivando la necesidad de manejar promesas explícitamente y el tipo de retorno)
+      "@typescript-eslint/no-floating-promises": "off",
+      "@typescript-eslint/explicit-function-return-type": "off",
+      "@typescript-eslint/no-misused-promises": "off"
+    }
+  },
+  
+  // ======================================================
+  // OTRAS CONFIGURACIONES (JSON, Markdown, CSS)
+  // ======================================================
   { files: ["**/*.json"], plugins: { json }, language: "json/json", extends: ["json/recommended"] },
   { files: ["**/*.jsonc"], plugins: { json }, language: "json/jsonc", extends: ["json/recommended"] },
   { files: ["**/*.json5"], plugins: { json }, language: "json/json5", extends: ["json/recommended"] },
