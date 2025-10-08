@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Con de Twitter",
+  title: "Clon de Twitter",
   description: "Generated moviendo las manitas",
 };
 
