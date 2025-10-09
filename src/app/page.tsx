@@ -2,6 +2,8 @@ import { createServerComponentClient} from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers';
 import { AuthButtonServer } from '@/app/components/auth-buton-server';
 import { redirect } from 'next/navigation';
+import PostCard from './components/post-card';
+import {  PostLists } from './components/posts-list';
 
 export default async function Home() {
   const supabase = createServerComponentClient({ cookies })
@@ -13,19 +15,16 @@ export default async function Home() {
 
   const {data: posts} = await supabase
   .from('posts')
-  .select('*, auth.users(email)')
+  .select('*, user: users(name, avatar_url, user_name)')
 
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <AuthButtonServer/>
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        
-        <pre>
-          {
-            JSON.stringify(posts, null, 2)
-          }
-        </pre>
-      </main>
-    </div>
+    <main className="flex min-h-screen flex-col items-center justify-between">
+
+      <section className='max-w-[600px] mx-auto border-l border-r border-white/50 min-h-screen'>
+        <AuthButtonServer/>
+        <PostLists posts={posts}/>
+      </section>
+
+    </main>
   );
 }

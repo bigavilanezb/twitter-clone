@@ -2,6 +2,7 @@
 
 import { type Session, createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
+import {Button} from '@heroui/react'
 
 export function AuthButton ({ session } : {session: Session | null}) {
   const supabase = createClientComponentClient();
@@ -31,7 +32,7 @@ export function AuthButton ({ session } : {session: Session | null}) {
         </svg>
         Iniciar sesión con Github
       </button>
-        ) : <button onClick={handleSignOut}>Cerrar Sesión</button>
+        ) : <Button onClick={handleSignOut}>Cerrar Sesión</Button>
       }
     </header>
   )
