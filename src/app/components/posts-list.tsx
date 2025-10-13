@@ -1,6 +1,8 @@
 import PostCard from "@/app/components/post-card";
+import { type Database } from "../types/database";
 
-export function PostLists({ posts }) {
+type Posts = Database['public']['Tables']['posts']['Row']
+export function PostLists({ posts } : {posts: Posts[]}) {
   return (
     <>
       <main className="flex flex-col row-start-2 items-center sm:items-start">

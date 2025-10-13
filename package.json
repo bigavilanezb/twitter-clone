@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "gen:types": "pnpx supabase gen types typescript --project-id qrasrddwiwvydyspxfyt > ./src/app/types/database.ts"
   },
   "dependencies": {
     "@heroui/react": "^2.8.5",
