@@ -10,7 +10,11 @@ import { defineConfig } from "eslint/config";
 export default defineConfig([
 
   {
-    ignores: ["src/app/types/database.ts"]
+    ignores: [
+      "src/app/types/database.ts",
+      "node_modules/**",
+      ".next/**"
+    ]
   },
   // Configuración base para archivos de código
   { 
