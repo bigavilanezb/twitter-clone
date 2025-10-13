@@ -8,6 +8,10 @@ import css from "@eslint/css";
 import { defineConfig } from "eslint/config";
 
 export default defineConfig([
+
+  {
+    ignores: ["src/app/types/database.ts"]
+  },
   // Configuración base para archivos de código
   { 
     files: ["**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"], 
