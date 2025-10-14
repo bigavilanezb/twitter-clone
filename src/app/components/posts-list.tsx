@@ -1,31 +1,28 @@
-import PostCard from "@/app/components/post-card";
-import { type Database } from "../types/database";
+import PostCard from "./post-card";
+import { type Post } from "@/app/types/posts";
 
-type Posts = Database['public']['Tables']['posts']['Row']
-export function PostLists({ posts } : {posts: Posts[]}) {
+export function PostLists({ posts }: { posts: Post[] | null }) {
   return (
     <>
-      <main className="flex flex-col row-start-2 items-center sm:items-start">
-        {posts?.map((post) => {
-          const { id, user, content } = post;
+      {posts?.map((post) => {
+        const { id, user, content } = post;
 
-          const {
-            user_name: userName,
-            name: userFullname,
-            avatar_url: avatarUrl,
-          } = user;
+        const {
+          user_name: userName,
+          name: userFullName,
+          avatar_url: avatarUrl,
+        } = user;
 
-          return (
-            <PostCard
-              content={content}
-              key={id}
-              userName={userName}
-              userFullname={userFullname}
-              avatarUrl={avatarUrl}
-            />
-          );
-        })}
-      </main>
+        return (
+          <PostCard
+            avatarUrl={avatarUrl}
+            content={content}
+            key={id}
+            userFullName={userFullName}
+            userName={userName}
+          />
+        );
+      })}
     </>
   );
 }
