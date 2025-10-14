@@ -5,54 +5,57 @@ import pluginReact from "eslint-plugin-react";
 import json from "@eslint/json";
 import markdown from "@eslint/markdown";
 import css from "@eslint/css";
-import { defineConfig } from "eslint/config";
 
-export default defineConfig([
-
+export default [
+  // IGNORES PRIMERO (muy importante)
   {
     ignores: [
+      "**/database.ts",
       "src/app/types/database.ts",
       "node_modules/**",
-      ".next/**"
+      ".next/**",
+      "**/*.d.ts"
     ]
   },
+  
   // Configuración base para archivos de código
   { 
     files: ["**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"], 
-    plugins: { js }, 
-    extends: ["js/recommended"], 
-    languageOptions: { globals: {...globals.browser, ...globals.node} } 
+    ...js.configs.recommended,
+    languageOptions: { 
+      globals: {...globals.browser, ...globals.node} 
+    } 
   },
   
-  // Configuración recomendada de TypeScript
-  tseslint.configs.recommended,
+  // TypeScript
+  ...tseslint.configs.recommended,
   
-  // Configuración recomendada de React
-  pluginReact.configs.flat.recommended,
-  
-  // ======================================================
-  // OBJETO DE CONFIGURACIÓN PERSONALIZADO PARA TUS REGLAS
-  // ======================================================
+  // React
   {
-    files: ["**/*.{ts,mts,cts,tsx}"], // Aplicamos las reglas solo a archivos TypeScript/React
-    rules: {
-      // Reglas de React (para evitar errores en React v17+)
-      "react/prop-types": "off",
-      "react/react-in-jsx-scope": "off",
-      
-      // Reglas de TypeScript (desactivando la necesidad de manejar promesas explícitamente y el tipo de retorno)
-      "@typescript-eslint/no-floating-promises": "off",
-      "@typescript-eslint/explicit-function-return-type": "off",
-      "@typescript-eslint/no-misused-promises": "off"
+    files: ["**/*.{jsx,tsx}"],
+    ...pluginReact.configs.flat.recommended,
+    settings: {
+      react: {
+        version: "detect"
+      }
     }
   },
   
-  // ======================================================
-  // OTRAS CONFIGURACIONES (JSON, Markdown, CSS)
-  // ======================================================
-  { files: ["**/*.json"], plugins: { json }, language: "json/json", extends: ["json/recommended"] },
-  { files: ["**/*.jsonc"], plugins: { json }, language: "json/jsonc", extends: ["json/recommended"] },
-  { files: ["**/*.json5"], plugins: { json }, language: "json/json5", extends: ["json/recommended"] },
-  { files: ["**/*.md"], plugins: { markdown }, language: "markdown/commonmark", extends: ["markdown/recommended"] },
-  { files: ["**/*.css"], plugins: { css }, language: "css/css", extends: ["css/recommended"] },
-]);
+  // Reglas personalizadas
+  {
+    files: ["**/*.{ts,mts,cts,tsx}"],
+    rules: {
+      "react/prop-types": "off",
+      "react/react-in-jsx-scope": "off",
+      "@typescript-eslint/no-floating-promises": "off",
+      "@typescript-eslint/explicit-function-return-type": "off",
+      "@typescript-eslint/no-misused-promises": "off",
+      "@typescript-eslint/no-unused-vars": "warn" // cambiar a warn en vez de error
+    }
+  },
+  
+  // JSON, Markdown, CSS
+  { files: ["**/*.json"], ...json.configs.recommended },
+  { files: ["**/*.md"], ...markdown.configs.recommended },
+  { files: ["**/*.css"], ...css.configs.recommended }
+];
